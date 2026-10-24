@@ -1,0 +1,311 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Happy Birthday Novi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============ PENGATURAN WARNA (mudah diedit) ============ */
+:root{
+  --navy:#071B3A;
+  --midnight:#0b2a5b;
+  --soft:#8fb8ee;
+  --light:#cfe2fb;
+  --white:#ffffff;
+  --script:'Great Vibes','Brush Script MT','Segoe Script',cursive;
+  --body:'Quicksand','Segoe UI',Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;background:var(--navy);font-family:var(--body);color:var(--white)}
+body{
+  background:
+    radial-gradient(ellipse at 20% 10%,rgba(90,140,220,.35),transparent 55%),
+    radial-gradient(ellipse at 85% 85%,rgba(60,110,200,.30),transparent 55%),
+    linear-gradient(160deg,#0b2a5b 0%,#071B3A 55%,#040f24 100%);
+}
+/* tekstur halus */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;
+  background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);
+  background-size:4px 4px;
+}
+#stars{position:fixed;inset:0;pointer-events:none;z-index:0}
+.star{position:absolute;background:#fff;border-radius:50%;animation:twinkle 4s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:.15;transform:scale(.8)}50%{opacity:.95;transform:scale(1.2)}}
+.glow{position:fixed;width:60vmax;height:60vmax;border-radius:50%;pointer-events:none;z-index:0;
+  background:radial-gradient(circle,rgba(130,175,240,.18),transparent 65%);filter:blur(20px);animation:drift 18s ease-in-out infinite alternate}
+.glow.g1{top:-25vmax;left:-20vmax}
+.glow.g2{bottom:-30vmax;right:-25vmax;animation-delay:-9s}
+@keyframes drift{from{transform:translate(0,0)}to{transform:translate(8vmax,6vmax)}}
+
+/* ============ HALAMAN ============ */
+.page{position:fixed;inset:0;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:max(20px,env(safe-area-inset-top)) 20px max(20px,env(safe-area-inset-bottom));
+  opacity:0;visibility:hidden;transform:translateY(18px);transition:opacity .9s ease,transform .9s ease,visibility .9s}
+.page.active{opacity:1;visibility:visible;transform:none}
+.page.scroll{justify-content:flex-start;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.page.scroll>.inner{margin:auto 0;width:100%;display:flex;flex-direction:column;align-items:center;padding:12px 0}
+
+.title{font-family:var(--script);font-weight:400;color:#fff;text-align:center;line-height:1.1;text-shadow:0 0 18px rgba(143,184,238,.55)}
+.title.big{font-size:clamp(2.6rem,13vw,4.2rem)}
+.title.mid{font-size:clamp(2.4rem,11vw,3.4rem);margin-bottom:6px}
+.sub{font-size:.95rem;letter-spacing:.14em;text-transform:uppercase;color:var(--light);text-align:center;margin-bottom:18px;opacity:.9}
+
+.btn{margin-top:22px;border:1.5px solid var(--soft);background:rgba(143,184,238,.12);color:#fff;font-family:var(--body);
+  font-size:1rem;font-weight:600;letter-spacing:.06em;padding:12px 30px;border-radius:999px;cursor:pointer;
+  backdrop-filter:blur(4px);transition:background .3s,transform .2s,box-shadow .3s}
+.btn:hover{background:rgba(143,184,238,.28);box-shadow:0 0 18px rgba(143,184,238,.4)}
+.btn:active{transform:scale(.96)}
+
+/* ============ 1. AMPLOP ============ */
+#p1 .title{margin-bottom:34px}
+.env-wrap{perspective:1000px;cursor:pointer;margin-bottom:6px}
+.envelope{position:relative;width:min(80vw,320px);height:min(54vw,215px);animation:float 4s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.envelope.open{animation:none}
+.env-back{position:absolute;inset:0;background:#0a2550;border-radius:8px;box-shadow:0 18px 40px rgba(0,0,0,.5),0 0 0 1px rgba(143,184,238,.35)}
+.env-letter{position:absolute;left:8%;right:8%;top:6%;height:80%;background:linear-gradient(#eaf2ff,#cfe2fb);border-radius:5px;
+  transition:transform 1s ease .55s;z-index:2;display:flex;align-items:center;justify-content:center;color:#0b2a5b;font-family:var(--script);font-size:1.8rem}
+.envelope.open .env-letter{transform:translateY(-62%)}
+.env-front{position:absolute;inset:0;z-index:3;border-radius:8px;overflow:hidden;pointer-events:none}
+.env-front{background:linear-gradient(#0e3170,#0a2552);clip-path:polygon(0 0,50% 56%,100% 0,100% 100%,0 100%)}
+.flap{position:absolute;left:0;right:0;top:0;height:58%;z-index:4;transform-origin:top center;
+  transition:transform .9s ease,z-index 0s .45s;background:linear-gradient(#123a82,#0d2d66);
+  clip-path:polygon(0 0,100% 0,50% 100%);filter:drop-shadow(0 4px 6px rgba(0,0,0,.4))}
+.envelope.open .flap{transform:rotateX(180deg);z-index:1}
+.seal{position:absolute;left:50%;top:58%;width:46px;height:46px;transform:translate(-50%,-50%);z-index:6;
+  transition:opacity .4s,transform .5s;filter:drop-shadow(0 3px 6px rgba(0,0,0,.5))}
+.envelope.open .seal{opacity:0;transform:translate(-50%,-50%) scale(.3)}
+.seal svg{width:100%;height:100%}
+.tap{margin-top:30px;font-size:1rem;letter-spacing:.3em;text-transform:uppercase;color:var(--light);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* ============ 2. KALENDER ============ */
+.cal-card{width:min(92vw,360px);background:linear-gradient(160deg,#16418f,#0d2d66 70%);border:1.5px solid rgba(143,184,238,.55);
+  border-radius:22px;padding:20px 16px 18px;box-shadow:0 20px 45px rgba(0,0,0,.5),inset 0 0 40px rgba(143,184,238,.08);position:relative}
+.cal-card .month{font-family:var(--script);font-size:3rem;text-align:center;line-height:1.1}
+.cal-card .year{text-align:center;letter-spacing:.4em;color:var(--light);font-size:.85rem;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.dow{font-size:.7rem;font-weight:600;color:var(--soft);letter-spacing:.05em;padding-bottom:6px}
+.day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:.95rem;color:#e6f0ff;position:relative}
+.day.big{overflow:visible}
+.day.big svg{position:absolute;width:190%;height:190%;left:-45%;top:-48%;filter:drop-shadow(0 0 8px rgba(255,255,255,.7));animation:beat 1.8s ease-in-out infinite;z-index:2}
+.day.big span{position:relative;z-index:3;color:#0b2a5b;font-weight:700;font-size:1rem;margin-top:1px}
+@keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.mini{position:absolute;color:#fff;font-size:.8rem;animation:twinkle 3s ease-in-out infinite}
+
+/* ============ 3. SURAT ============ */
+.letter{position:relative;width:min(90vw,350px);min-height:min(125vw,470px);background:linear-gradient(170deg,#0d2d66,#071B3A 85%);
+  border:1.5px solid #9cc4f3;border-radius:22px;padding:30px 24px 34px;box-shadow:0 20px 50px rgba(0,0,0,.55),0 0 30px rgba(143,184,238,.15);overflow:hidden}
+.letter .deco{position:absolute;pointer-events:none;opacity:.14;color:#fff}
+.letter .d1{top:10px;right:14px;font-size:3.4rem}
+.letter .d2{bottom:70px;left:12px;font-size:2.6rem}
+.letter .d3{bottom:20px;right:20px;font-size:1.8rem;opacity:.1}
+.flower{position:absolute;width:26px;height:26px;opacity:.75}
+.f1{top:14px;left:16px}.f2{top:44px;left:42px;transform:scale(.7)}.f3{bottom:16px;left:20px;transform:scale(.8)}
+.cup{position:absolute;right:16px;bottom:14px;width:36px;opacity:.85}
+.msg{position:relative;z-index:2;font-size:1.06rem;line-height:1.9;color:#eaf3ff;text-align:left;margin-top:14px;word-wrap:break-word;overflow-wrap:anywhere}
+.msg .w{opacity:0;display:inline-block;transform:translateY(6px);animation:wordin .8s ease forwards}
+@keyframes wordin{to{opacity:1;transform:none}}
+.msg-wrap{padding-bottom:42px}
+
+/* ============ 4. KUE ============ */
+.cake-box{position:relative;width:min(70vw,260px);height:min(78vw,300px);margin:6px auto 0}
+.plate{position:absolute;bottom:0;left:-8%;right:-8%;height:14px;background:linear-gradient(#cfe2fb,#8fb8ee);border-radius:50%;box-shadow:0 8px 18px rgba(0,0,0,.45)}
+.tier{position:absolute;left:50%;transform:translateX(-50%);border-radius:14px 14px 10px 10px;overflow:hidden;box-shadow:inset 0 -10px 0 rgba(0,0,0,.12)}
+.t1{bottom:8px;width:100%;height:36%;background:linear-gradient(#2c62c4,#1b4aa0)}
+.t2{bottom:calc(36% + 6px);width:68%;height:30%;background:linear-gradient(#e8f2ff,#bcd6f8)}
+.tier .drip{position:absolute;top:0;left:0;right:0;height:14px;background:var(--c)}
+.tier .drip::after{content:"";position:absolute;left:0;right:0;top:100%;height:10px;
+  background:radial-gradient(circle at 50% 0,var(--c) 9px,transparent 10px) 0 0/22px 10px repeat-x}
+.t1{--c:#eaf3ff}
+.t2{--c:#4d83dc}
+.tier .dots{position:absolute;bottom:14%;left:0;right:0;display:flex;justify-content:space-around;padding:0 8px}
+.tier .dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.85)}
+.t2 .dots i{background:#3f77d4}
+.candles{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(66% + 6px);width:56%;display:flex;justify-content:space-around;align-items:flex-end}
+.candle{position:relative;width:8px;height:34px;background:repeating-linear-gradient(135deg,#fff 0 5px,#8fb8ee 5px 10px);border-radius:3px}
+.flame{position:absolute;left:50%;top:-20px;width:11px;height:18px;transform:translateX(-50%);transform-origin:50% 100%;
+  background:radial-gradient(ellipse at 50% 70%,#fff6c9 0,#ffd05a 45%,#ff9b3b 75%,transparent 76%);
+  border-radius:50% 50% 50% 50%/65% 65% 35% 35%;animation:flick .5s ease-in-out infinite alternate;
+  box-shadow:0 0 14px 4px rgba(255,200,90,.55);transition:opacity .5s,transform .5s}
+.candle:nth-child(2) .flame{animation-delay:-.2s}.candle:nth-child(3) .flame{animation-delay:-.35s}.candle:nth-child(4) .flame{animation-delay:-.1s}
+@keyframes flick{from{transform:translateX(-50%) scale(1,1) rotate(-3deg)}to{transform:translateX(-50%) scale(.88,1.12) rotate(3deg)}}
+.out .flame{opacity:0;transform:translateX(-50%) scale(.2);animation:none;box-shadow:none}
+.smoke{position:absolute;left:50%;top:-14px;width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.5);opacity:0}
+.out .smoke{animation:smoke 2s ease-out}
+@keyframes smoke{0%{opacity:.7;transform:translate(-50%,0) scale(1)}100%{opacity:0;transform:translate(-50%,-40px) scale(5)}}
+.cake-star{position:absolute;color:#fff;animation:twinkle 3s ease-in-out infinite}
+.wish{font-family:var(--script);font-size:1.9rem;text-align:center;margin-top:20px;text-shadow:0 0 14px rgba(143,184,238,.6)}
+.btnrow{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+</style>
+</head>
+<body>
+<div class="glow g1"></div><div class="glow g2"></div>
+<div id="stars"></div>
+
+<!-- ============ HALAMAN 1: AMPLOP ============ -->
+<section class="page active" id="p1">
+  <h1 class="title big">Happy Birthday<br>Novi</h1>
+  <div style="height:34px"></div>
+  <div class="env-wrap" id="envWrap">
+    <div class="envelope" id="envelope">
+      <div class="env-back"></div>
+      <div class="env-letter">For You</div>
+      <div class="env-front"></div>
+      <div class="flap"></div>
+      <div class="seal">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11.5" fill="#1f56b8" stroke="#8fb8ee" stroke-width=".6"/>
+          <path d="M12 17.2s-4.6-2.9-4.6-6.1A2.6 2.6 0 0 1 12 9.6a2.6 2.6 0 0 1 4.6 1.5c0 3.2-4.6 6.1-4.6 6.1z" fill="#fff"/></svg>
+      </div>
+    </div>
+  </div>
+  <p class="tap" id="tapText">Tap to open</p>
+</section>
+
+<!-- ============ HALAMAN 2: KALENDER ============ -->
+<section class="page scroll" id="p2"><div class="inner">
+  <p class="sub">The Day My Favorite Person Was Born</p>
+  <div class="cal-card">
+    <span class="mini" style="top:12px;left:16px">✦</span>
+    <span class="mini" style="top:26px;right:20px;animation-delay:-1s">✧</span>
+    <span class="mini" style="bottom:12px;left:24px;animation-delay:-2s">✧</span>
+    <span class="mini" style="bottom:20px;right:16px;animation-delay:-.5s">✦</span>
+    <div class="month">October</div>
+    <div class="year">2026</div>
+    <div class="grid" id="calGrid"></div>
+  </div>
+  <button class="btn" id="toLetter">Lanjut 💙</button>
+</div></section>
+
+<!-- ============ HALAMAN 3: SURAT ============ -->
+<section class="page scroll" id="p3"><div class="inner">
+  <h2 class="title mid">Message for You</h2>
+  <div class="letter">
+    <span class="deco d1">♥</span><span class="deco d2">♥</span><span class="deco d3">♥</span>
+    <!-- bunga putih kecil -->
+    <svg class="flower f1" viewBox="0 0 24 24"><g fill="#fff"><circle cx="12" cy="5" r="4"/><circle cx="19" cy="10" r="4"/><circle cx="16" cy="19" r="4"/><circle cx="8" cy="19" r="4"/><circle cx="5" cy="10" r="4"/></g><circle cx="12" cy="12" r="3" fill="#8fb8ee"/></svg>
+    <svg class="flower f2" viewBox="0 0 24 24"><g fill="#fff"><circle cx="12" cy="5" r="4"/><circle cx="19" cy="10" r="4"/><circle cx="16" cy="19" r="4"/><circle cx="8" cy="19" r="4"/><circle cx="5" cy="10" r="4"/></g><circle cx="12" cy="12" r="3" fill="#8fb8ee"/></svg>
+    <svg class="flower f3" viewBox="0 0 24 24"><g fill="#fff"><circle cx="12" cy="5" r="4"/><circle cx="19" cy="10" r="4"/><circle cx="16" cy="19" r="4"/><circle cx="8" cy="19" r="4"/><circle cx="5" cy="10" r="4"/></g><circle cx="12" cy="12" r="3" fill="#8fb8ee"/></svg>
+    <!-- cangkir mini -->
+    <svg class="cup" viewBox="0 0 40 34"><path d="M6 10h24v10a10 10 0 0 1-10 10h-4A10 10 0 0 1 6 20z" fill="none" stroke="#fff" stroke-width="2"/><path d="M30 13h3a4 4 0 0 1 0 9h-4" fill="none" stroke="#fff" stroke-width="2"/><path d="M13 3c-2 2 2 3 0 5M20 3c-2 2 2 3 0 5" fill="none" stroke="#8fb8ee" stroke-width="1.5" stroke-linecap="round"/></svg>
+
+    <div class="msg-wrap">
+      <!-- ISI SURAT: edit teks di bawah ini kalau ingin mengganti -->
+      <p class="msg" id="msg" data-text="happy birthday piw,panjang umur sehat selalu dan murah rezeki,semoga kamu kedepannya menjadi pribadi yang lebih baik dan orang yang terus berkembang,Aku selalu support kamu bistiii,maaf baru ngucapin ..."></p>
+    </div>
+  </div>
+  <button class="btn" id="toCake">Lihat Kue 🎂</button>
+</div></section>
+
+<!-- ============ HALAMAN 4: KUE ============ -->
+<section class="page scroll" id="p4"><div class="inner">
+  <h2 class="title mid">Make a Wish</h2>
+  <div class="cake-box" id="cake">
+    <span class="cake-star" style="top:-6px;left:-4%;font-size:1rem">✦</span>
+    <span class="cake-star" style="top:20px;right:-6%;font-size:.8rem;animation-delay:-1s">✧</span>
+    <span class="cake-star" style="top:90px;left:-10%;font-size:.7rem;animation-delay:-2s">✧</span>
+    <span class="cake-star" style="top:70px;right:-12%;font-size:1.1rem;animation-delay:-.6s">✦</span>
+    <div class="candles" id="candles">
+      <div class="candle"><div class="flame"></div><div class="smoke"></div></div>
+      <div class="candle"><div class="flame"></div><div class="smoke"></div></div>
+      <div class="candle"><div class="flame"></div><div class="smoke"></div></div>
+      <div class="candle"><div class="flame"></div><div class="smoke"></div></div>
+    </div>
+    <div class="tier t2"><div class="drip"></div><div class="dots"><i></i><i></i><i></i><i></i></div></div>
+    <div class="tier t1"><div class="drip"></div><div class="dots"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+    <div class="plate"></div>
+  </div>
+  <p class="wish" id="wish">Happy Birthday, Novi 💙</p>
+  <div class="btnrow">
+    <button class="btn" id="blow">Tiup Lilin 🕯️</button>
+    <button class="btn" id="again">Ulangi ↺</button>
+  </div>
+</div></section>
+
+<script>
+/* ===== Bintang kecil di latar belakang ===== */
+(function(){
+  var box=document.getElementById('stars');
+  for(var i=0;i<60;i++){
+    var s=document.createElement('div');s.className='star';
+    var size=Math.random()*2.2+.8;
+    s.style.cssText='width:'+size+'px;height:'+size+'px;left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;'+
+      'animation-duration:'+(3+Math.random()*4)+'s;animation-delay:-'+Math.random()*5+'s';
+    box.appendChild(s);
+  }
+})();
+
+/* ===== Perpindahan halaman ===== */
+var pages=['p1','p2','p3','p4'];
+function go(id){
+  pages.forEach(function(p){document.getElementById(p).classList.remove('active')});
+  var el=document.getElementById(id);
+  el.classList.add('active');el.scrollTop=0;
+  if(id==='p3') typeLetter();
+}
+
+/* ===== 1. Amplop ===== */
+var envelope=document.getElementById('envelope'),opened=false;
+document.getElementById('envWrap').addEventListener('click',openEnv);
+function openEnv(){
+  if(opened) return; opened=true;
+  envelope.classList.add('open');
+  document.getElementById('tapText').style.opacity='0';
+  setTimeout(function(){go('p2')},2200);
+}
+
+/* ===== 2. Kalender Oktober 2026 (dihitung otomatis) ===== */
+(function(){
+  var grid=document.getElementById('calGrid');
+  ['Min','Sen','Sel','Rab','Kam','Jum','Sab'].forEach(function(d){
+    var e=document.createElement('div');e.className='dow';e.textContent=d;grid.appendChild(e);
+  });
+  var first=new Date(2026,9,1).getDay();      // 0 = Minggu
+  var total=new Date(2026,10,0).getDate();     // jumlah hari Oktober = 31
+  for(var i=0;i<first;i++) grid.appendChild(document.createElement('div'));
+  for(var d=1;d<=total;d++){
+    var c=document.createElement('div');c.className='day';
+    if(d===24){
+      c.className+=' big';
+      c.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 21.2C5 16.4 2.5 12.6 2.5 8.9A5 5 0 0 1 12 6.6a5 5 0 0 1 9.5 2.3c0 3.700-2.500 7.500-9.500 12.300z" fill="#fff"/></svg><span>24</span>';
+    } else c.textContent=d;
+    grid.appendChild(c);
+  }
+})();
+document.getElementById('toLetter').addEventListener('click',function(){go('p3')});
+
+/* ===== 3. Surat: teks muncul perlahan (teks tetap persis) ===== */
+var typed=false;
+function typeLetter(){
+  if(typed) return; typed=true;
+  var p=document.getElementById('msg');
+  var words=p.getAttribute('data-text').split(' ');
+  p.innerHTML='';
+  words.forEach(function(w,i){
+    var s=document.createElement('span');s.className='w';s.textContent=w;
+    s.style.animationDelay=(0.9+i*0.22)+'s';
+    p.appendChild(s);
+    p.appendChild(document.createTextNode(' '));
+  });
+}
+document.getElementById('toCake').addEventListener('click',function(){go('p4')});
+n
+/* ===== 4. Kue ===== */
+var cake=document.getElementById('cake');
+document.getElementById('blow').addEventListener('click',function(){
+  cake.classList.add('out');
+  document.getElementById('wish').textContent='Semoga semua doamu terkabul 💙';
+});
+document.getElementById('again').addEventListener('click',function(){
+  cake.classList.remove('out');
+  document.getElementById('wish').textContent='Happy Birthday, Novi 💙';
+});
+</script>
+</body>
+</html>
+```
+
